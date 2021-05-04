@@ -17,10 +17,6 @@ const theme = createMuiTheme({
       default: '#fff',
     },
   },
-  links: {
-    default: '#1478a6',
-    hover: '#126991',
-  },
   typography: {
     fontFamily: [
       'Lato'

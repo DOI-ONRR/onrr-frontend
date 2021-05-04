@@ -16,6 +16,7 @@ import {
 import Loading from './Loading'
 import Announcements from './Announcements'
 
+import Link from './Link'
 import LinkList from './LinkList'
 
 const DefaultSectionContainer = withStyles(theme => 
@@ -81,6 +82,7 @@ const Home = ({ pageId, ...rest }) => {
               dangerouslySetInnerHTML={{__html: page.content}} />
               <Grid container spacing={3}>
                 <Grid item xs={6}>
+                  {/* <Link href="https://google.com">My test link yo!</Link> */}
                   <LinkList title="New to reporting?" data={[]} />
                 </Grid>
                 <Grid item xs={6}>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 
 import {
   AppBar,
@@ -92,9 +92,9 @@ const Header = props => {
           </IconButton> */}
           
           <Typography className={classes.title} variant="h6" noWrap>
-            <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
+            <RouterLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
               ONNR
-            </Link>
+            </RouterLink>
           </Typography>
           
           <MainMenu location={location} />
