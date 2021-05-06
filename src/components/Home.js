@@ -2,6 +2,8 @@ import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from '@apollo/client'
 
+import parse from 'html-react-parser'
+
 import {
   Box,
   Typography,
@@ -17,7 +19,7 @@ import Loading from './Loading'
 import Announcements from './Announcements'
 
 import Link from './Link'
-import LinkList from './LinkList'
+import HomeBlock from './HomeBlock'
 
 const DefaultSectionContainer = withStyles(theme => 
   createStyles({
@@ -36,21 +38,30 @@ const HOME_PAGE_QUERY = gql`
       title(format: RENDERED)
       slug
       content(format: RENDERED)
-    }
-
-    # Quick links menu
-    menu(id: "dGVybTo1") {
-      count
-      id
-      databaseId
-      name
-      slug
-      menuItems {
-        nodes {
-          id
-          url
-          label
-          target
+      blocks {
+        ... on CoreParagraphBlock {
+          dynamicContent
+          originalContent
+        }
+        ... on CoreHtmlBlock {
+          dynamicContent
+          originalContent
+        }
+        innerBlocks {
+          innerBlocks {
+            saveContent
+            ... on LazyblockHomePageLinkBlock {
+              dynamicContent
+              originalContent
+              innerBlocks {
+                dynamicContent
+                ... on LazyblockHomePageLinkBlock {
+                  dynamicContent
+                  originalContent
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -66,12 +77,20 @@ const Home = ({ pageId, ...rest }) => {
   if (error) return `Error! ${ error.message }`
 
   let page
-  let menus
+  let blocks
+  let htmlBlock
+  let paragraphBlock
+  let parsedContent
   
   if (data) {
     console.log('Home data: ', data)
     page = data.page
-    menus = data.menu
+    console.debug('parsedContent: ', parse(data.page.content))
+    paragraphBlock = data.page.blocks.filter(block => block.__typename === "CoreParagraphBlock")
+    htmlBlock = data.page.blocks.filter(block => block.__typename === "CoreHtmlBlock")
+    blocks = data.page.blocks.filter(block => block.innerBlocks.length > 0)[0].innerBlocks
+    // menus = data.menu
+    console.debug('blocks yo: ', blocks)
     return (
       <DefaultSectionContainer>
         <Grid container spacing={3}>
@@ -79,36 +98,37 @@ const Home = ({ pageId, ...rest }) => {
             <Typography 
               variant="h1" 
               style={{ fontSize: 24, fontWeight: 'normal', marginTop: 10, lineHeight: '34px' }}
-              dangerouslySetInnerHTML={{__html: page.content}} />
+              dangerouslySetInnerHTML={{__html: paragraphBlock[0].originalContent}} />
+
+
               <Grid container spacing={3}>
                 <Grid item xs={6}>
-                  {/* <Link href="https://google.com">My test link yo!</Link> */}
-                  <LinkList title="New to reporting?" data={[]} />
+                  <HomeBlock content={blocks[0].innerBlocks[0].dynamicContent} />
                 </Grid>
                 <Grid item xs={6}>
-                  <LinkList title="Quick links" data={[]} />
+                  <HomeBlock content={blocks[1].innerBlocks[0].dynamicContent} />
                 </Grid>
               </Grid>
               <Grid container spacing={3}>
                 <Grid item xs={4}>
-                  <LinkList title="Getting Started" data={[]} />
+                  <HomeBlock content={''} />
                 </Grid>
                 <Grid item xs={4}>
-                  <LinkList title="Reporting" data={[]} />
+                  <HomeBlock content={''} />
                 </Grid>
                 <Grid item xs={4}>
-                  <LinkList title="Guidance & References" data={[]} />
+                  <HomeBlock content={''} />
                 </Grid>
               </Grid>
               <Grid container spacing={3}>
                 <Grid item xs={4}>
-                  <LinkList title="Paying" data={[]} />
+                  <HomeBlock content={''} />
                 </Grid>
                 <Grid item xs={4}>
-                  <LinkList title="Compliance & Inforcement" data={[]} />
+                  <HomeBlock content={''} />
                 </Grid>
                 <Grid item xs={4}>
-                  <LinkList title="Indian Resources" data={[]} />
+                  <HomeBlock content={''} />
                 </Grid>
               </Grid>
           </Grid>

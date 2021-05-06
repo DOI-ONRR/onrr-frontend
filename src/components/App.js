@@ -12,6 +12,11 @@ import {
   Container
 } from '@material-ui/core'
 
+import {
+  withStyles,
+  createStyles
+} from '@material-ui/core/styles'
+
 import Header from './Header'
 import Footer from './Footer'
 import Home from './Home'
@@ -35,6 +40,24 @@ const PAGES_QUERY = gql`
     }
   }
 `
+
+const DefaultAppContainer = withStyles(theme =>
+  createStyles({
+    root: {
+      display: 'flex',
+      minHeight: '100vh',
+      flexDirection: 'column',
+    }
+  })
+)(Container)
+
+const MainContentContainer = withStyles(theme =>
+  createStyles({
+    root: {
+      flex: 1
+    }
+  })
+)(Container)
 
 const getPageComponent = (page) => {
   console.log('getPageComponent page: ', page)
@@ -63,9 +86,9 @@ const App = () => {
     // get all page data to build routes
     pages = data.pages.nodes
     return (
-      <Container maxWidth={false} disableGutters={true}>
+      <DefaultAppContainer maxWidth={false} disableGutters={true}>
         <Header />
-        <Container maxWidth="lg">
+        <MainContentContainer maxWidth="lg">
           <Switch>
             <Route path="/" render={(props) => <Home pageId={79} {...props} />} exact />
             {pages.map(page => {
@@ -84,9 +107,9 @@ const App = () => {
               )
             })}
           </Switch>
-        </Container>
+        </MainContentContainer>
         <Footer />
-      </Container>
+      </DefaultAppContainer>
     )
   }
 }
