@@ -8,7 +8,6 @@ import {
 import { withStyles, createStyles } from '@material-ui/core/styles'
 
 import { AppToolbar } from '../../toolbars/AppToolbar'
-import { MainMenuToolbar } from '../../toolbars/MainMenuToolbar'
 
 import useWindowSize from '../../../js/hooks/useWindowSize'
 

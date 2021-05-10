@@ -98,7 +98,9 @@ const AppToolbar = ({ isShutdown = false }) => {
         }
         <BrowserBanner />
         <Toolbar>
-          <OnrrLogoImg />
+          <RouterLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
+            <OnrrLogoImg />
+          </RouterLink>
           
           <Typography className={classes.title} variant="h1" noWrap style={{ fontSize: '1.5rem', margin: 0 }}>
             <RouterLink to="/" style={{ color: 'white', textDecoration: 'none' }}>

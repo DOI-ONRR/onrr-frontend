@@ -1,10 +1,18 @@
 import React from 'react'
 
-import { Link } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from '@apollo/client'
 
-import Copyright from '../Copyright'
+import { 
+  Box,
+  Link as MuiLink, 
+  ListItemAvatar
+} from '@material-ui/core'
+
+import {
+  withStyles,
+  createStyles
+} from '@material-ui/core/styles'
 
 const FOOTER_MENU_QUERY = gql`
   {
@@ -24,25 +32,69 @@ const FOOTER_MENU_QUERY = gql`
   }
 `
 
+const NavContainer = withStyles(theme =>
+  createStyles({
+    root: {
+      '& nav': {
+        marginBottom: theme.spacing(1)
+      },
+      '& nav a': {
+        color: 'white',
+        marginRight: 25, 
+        textDecoration: 'none'
+      }
+    }
+  })
+)(Box)
+
+const NavLink = ({ children, href, target, rest }) => {
+  return (
+    <MuiLink 
+      href={href}
+      target={target}
+      {...rest}>
+      {children}
+    </MuiLink>
+  )
+}
+
 const FooterMenu = () => {
   const { loading, error, data } = useQuery(FOOTER_MENU_QUERY)
   console.log('footerMenu data: ', data)
   let items
+  let navTop = []
+  let navBottom = []
 
   if (loading) return ''
   if (error) return `Error! ${ error.message }`
   if (data) {
     items = data.menus.nodes[0].menuItems.nodes
+    items.map((item, index) => {
+      if (index < 5) navTop.push(item)
+      else navBottom.push(item)
+    })
     return (
-      <nav>
-      {items.map((item, index) => (
-        <Link key={index} 
-          to={`${item.path}`}
-          style={{ color: 'white', marginRight: 25, textDecoration: (location.pathname === item.path) ? 'none' : 'none' }}>
-          {item.label}
-        </Link>
-      ))}
-      </nav>
+      <NavContainer>
+        <nav>
+          {navTop.map((item, index) => (
+            <NavLink 
+              key={index} 
+              href={`${item.path}`}
+              target={'_blank'}>
+                {item.label}
+            </NavLink>
+          ))}
+        </nav>
+        <nav>
+        {navBottom.map((item, index) => (
+          <NavLink key={index} 
+            href={`${item.path}`}
+            target={'_blank'}>
+            {item.label}
+          </NavLink>
+        ))}
+        </nav>
+      </NavContainer>
     )
   }
 }
