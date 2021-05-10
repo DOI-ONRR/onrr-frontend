@@ -17,6 +17,7 @@ import {
   createStyles
 } from '@material-ui/core/styles'
 
+import { StickyHeader } from '../components/layouts/StickyHeader'
 import Header from './Header'
 import Footer from './Footer'
 import Home from './Home'
@@ -54,7 +55,8 @@ const DefaultAppContainer = withStyles(theme =>
 const MainContentContainer = withStyles(theme =>
   createStyles({
     root: {
-      flex: 1
+      flex: 1,
+      marginTop: 20,
     }
   })
 )(Container)
@@ -87,7 +89,7 @@ const App = () => {
     pages = data.pages.nodes
     return (
       <DefaultAppContainer maxWidth={false} disableGutters={true}>
-        <Header />
+        <StickyHeader />
         <MainContentContainer maxWidth="lg">
           <Switch>
             <Route path="/" render={(props) => <Home pageId={79} {...props} />} exact />

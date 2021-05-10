@@ -45,7 +45,7 @@ const DefaultHomeBlockContainer = withStyles(theme =>
   })
 )(Paper)
 
-export default function HomeBlock({ loading, content }) {
+const HomeBlock = ({ loading, content }) => {
   // console.log('HomeBlock data: ', content)
   const theme = useTheme()
   if (content) {
@@ -61,6 +61,8 @@ export default function HomeBlock({ loading, content }) {
   }
   
 }
+
+export default HomeBlock
 
 HomeBlock.propTypes = {
   loading: PropTypes.bool,

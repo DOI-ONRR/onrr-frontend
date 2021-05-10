@@ -45,4 +45,3 @@ const MainMenu = ({ location }) => {
 }
 
 export default MainMenu
-

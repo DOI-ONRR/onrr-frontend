@@ -94,13 +94,11 @@ const Home = ({ pageId, ...rest }) => {
     return (
       <DefaultSectionContainer>
         <Grid container spacing={3}>
-          <Grid item xs={8}>
+          <Grid item xs={12} md={8}>
             <Typography 
               variant="h1" 
               style={{ fontSize: 24, fontWeight: 'normal', marginTop: 10, lineHeight: '34px' }}
               dangerouslySetInnerHTML={{__html: paragraphBlock[0].originalContent}} />
-
-
               <Grid container spacing={3}>
                 <Grid item xs={6}>
                   <HomeBlock content={blocks[0].innerBlocks[0].dynamicContent} />
@@ -132,7 +130,7 @@ const Home = ({ pageId, ...rest }) => {
                 </Grid>
               </Grid>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={4}>
             <Typography variant="h4" align="left" style={{ marginBottom: 20 }}>
               Announcements
             </Typography>
