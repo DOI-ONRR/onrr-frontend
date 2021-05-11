@@ -47,16 +47,16 @@ const Footer = () => {
   return (
     <>
       <FooterContainerTop>
-        <Container maxWidth="lg">
+        {/* <Container maxWidth="lg"> */}
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <FooterMenu />
             </Grid>
           </Grid>
-        </Container>
+        {/* </Container> */}
       </FooterContainerTop>
       <FooterContainerBottom>
-        <Container maxWidth="lg">
+        {/* <Container maxWidth="lg"> */}
           <Grid container spacing={3}>
             <Grid item xs={9}>
               <LogoContainer>
@@ -76,7 +76,7 @@ const Footer = () => {
               <SocialMenu />
             </Grid>
           </Grid>
-        </Container>
+        {/* </Container> */}
       </FooterContainerBottom>
     </>
   )

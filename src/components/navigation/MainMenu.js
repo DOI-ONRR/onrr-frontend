@@ -23,7 +23,6 @@ const MAIN_MENU_QUERY = gql`
 
 const MainMenu = ({ location }) => {
   const { loading, error, data } = useQuery(MAIN_MENU_QUERY)
-  // console.log('MainMenu data: ', data)
   let items
 
   if (loading) return ''

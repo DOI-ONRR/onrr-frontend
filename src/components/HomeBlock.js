@@ -40,19 +40,24 @@ const DefaultHomeBlockContainer = withStyles(theme =>
       },
       '& .link-icon': {
         marginRight: theme.spacing(2)
+      },
+      '& .link-bottom-container ': {
+        borderTop: `1px solid ${ theme.palette.grey[400] }`,
+        marginTop: theme.spacing(1),
+        paddingTop: theme.spacing(1),
       }
     }
   })
 )(Paper)
 
 const HomeBlock = ({ loading, content }) => {
-  // console.log('HomeBlock data: ', content)
+  console.log('HomeBlock data: ', content)
   const theme = useTheme()
   if (content) {
     return (
       <DefaultHomeBlockContainer
         theme={theme}
-        dangerouslySetInnerHTML={{__html: content}}>
+        dangerouslySetInnerHTML={{__html: content }}>
       </DefaultHomeBlockContainer>
     )
   }

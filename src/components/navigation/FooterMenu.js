@@ -60,7 +60,6 @@ const NavLink = ({ children, href, target, rest }) => {
 
 const FooterMenu = () => {
   const { loading, error, data } = useQuery(FOOTER_MENU_QUERY)
-  console.log('footerMenu data: ', data)
   let items
   let navTop = []
   let navBottom = []

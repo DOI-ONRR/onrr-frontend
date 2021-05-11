@@ -60,7 +60,6 @@ const SocialLink = ({ children, href, label, rest }) => {
 
 const SocialMenu = () => {
   const { loading, error, data } = useQuery(SOCIAL_MENU_QUERY)
-  console.log('socialMenu data: ', data)
   let items
 
   if (loading) return ''

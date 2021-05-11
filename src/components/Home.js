@@ -2,8 +2,6 @@ import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from '@apollo/client'
 
-import parse from 'html-react-parser'
-
 import {
   Box,
   Typography,
@@ -18,8 +16,17 @@ import {
 import Loading from './Loading'
 import Announcements from './Announcements'
 
-import Link from './Link'
-import HomeBlock from './HomeBlock'
+import {
+  CoreColumnsBlock,
+  CoreHeadingBlock, 
+  CoreImageBlock
+} from './blocks'
+
+const components = {
+  CoreHeadingBlock: CoreHeadingBlock,
+  CoreImageBlock: CoreImageBlock,
+  CoreColumnsBlock: CoreColumnsBlock,
+}
 
 const DefaultSectionContainer = withStyles(theme => 
   createStyles({
@@ -39,6 +46,26 @@ const HOME_PAGE_QUERY = gql`
       slug
       content(format: RENDERED)
       blocks {
+        ... on CoreHeadingBlock {
+          attributes {
+            ... on CoreHeadingBlockAttributes {
+              align
+              content
+              level
+            }
+          }
+        }
+        ... on CoreImageBlock {
+          attributes {
+            ... on CoreImageBlockAttributes {
+              alt
+              rel
+              linkTarget
+              url
+              title
+            }
+          }
+        }
         ... on CoreParagraphBlock {
           dynamicContent
           originalContent
@@ -48,17 +75,16 @@ const HOME_PAGE_QUERY = gql`
           originalContent
         }
         innerBlocks {
-          innerBlocks {
-            saveContent
-            ... on LazyblockHomePageLinkBlock {
+          ... on CoreColumnBlock {
+            name
+            order
+            innerBlocks {
               dynamicContent
               originalContent
-              innerBlocks {
+              saveContent
+              ... on LazyblockHomePageLinkBlock {
                 dynamicContent
-                ... on LazyblockHomePageLinkBlock {
-                  dynamicContent
-                  originalContent
-                }
+                originalContent
               }
             }
           }
@@ -78,63 +104,31 @@ const Home = ({ pageId, ...rest }) => {
 
   let page
   let blocks
-  let htmlBlock
-  let paragraphBlock
-  let parsedContent
-  
+
+  const getBlockComponent = (name, data) => {
+    console.debug('getBlockComponent: ', name, data)
+    const BlockComponent = components[name]
+    if (BlockComponent && data) return <BlockComponent data={data} />
+  }
+
   if (data) {
     console.log('Home data: ', data)
     page = data.page
-    console.debug('parsedContent: ', parse(data.page.content))
-    paragraphBlock = data.page.blocks.filter(block => block.__typename === "CoreParagraphBlock")
-    htmlBlock = data.page.blocks.filter(block => block.__typename === "CoreHtmlBlock")
-    blocks = data.page.blocks.filter(block => block.innerBlocks.length > 0)[0].innerBlocks
+    blocks = data.page.blocks
     // menus = data.menu
     console.debug('blocks yo: ', blocks)
     return (
       <DefaultSectionContainer>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
-            <Typography 
-              variant="h1" 
-              style={{ fontSize: 24, fontWeight: 'normal', marginTop: 10, lineHeight: '34px' }}
-              dangerouslySetInnerHTML={{__html: paragraphBlock[0].originalContent}} />
-              <Grid container spacing={3}>
-                <Grid item xs={6}>
-                  <HomeBlock content={blocks[0].innerBlocks[0].dynamicContent} />
-                </Grid>
-                <Grid item xs={6}>
-                  <HomeBlock content={blocks[1].innerBlocks[0].dynamicContent} />
-                </Grid>
-              </Grid>
-              <Grid container spacing={3}>
-                <Grid item xs={4}>
-                  <HomeBlock content={''} />
-                </Grid>
-                <Grid item xs={4}>
-                  <HomeBlock content={''} />
-                </Grid>
-                <Grid item xs={4}>
-                  <HomeBlock content={''} />
-                </Grid>
-              </Grid>
-              <Grid container spacing={3}>
-                <Grid item xs={4}>
-                  <HomeBlock content={''} />
-                </Grid>
-                <Grid item xs={4}>
-                  <HomeBlock content={''} />
-                </Grid>
-                <Grid item xs={4}>
-                  <HomeBlock content={''} />
-                </Grid>
-              </Grid>
+            {(blocks.length > 0) &&
+              blocks.map(block => {
+                return getBlockComponent(block.__typename, block)
+              })
+            }
           </Grid>
           <Grid item xs={12} md={4}>
-            <Typography variant="h4" align="left" style={{ marginBottom: 20 }}>
-              Announcements
-            </Typography>
-            <Announcements />
+            <Announcements title={'Announcements'} />
           </Grid>
         </Grid>
       </DefaultSectionContainer>

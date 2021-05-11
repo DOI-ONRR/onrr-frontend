@@ -57,6 +57,7 @@ const MainContentContainer = withStyles(theme =>
     root: {
       flex: 1,
       marginTop: 20,
+      minHeight: 500,
     }
   })
 )(Container)

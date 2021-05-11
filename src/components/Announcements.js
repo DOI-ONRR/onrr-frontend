@@ -23,7 +23,7 @@ const ANNOUNCEMENTS_QUERY = gql`
   }
 `
 
-const Announcements = () => {
+const Announcements = ({ title }) => {
   const { loading, error, data } = useQuery(ANNOUNCEMENTS_QUERY)
   let announcements
 
@@ -34,6 +34,9 @@ const Announcements = () => {
     announcements = data.announcements.nodes
     return (
       <Grid container spacing={2}>
+        <Typography variant="h4" align="left" style={{ marginBottom: 20 }}>
+          {title}
+        </Typography>
         {announcements.map((announcement, index) => (
           <Grid item xs={12} key={index}>
             <Card>

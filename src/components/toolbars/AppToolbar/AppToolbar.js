@@ -34,6 +34,9 @@ const useStyles = makeStyles(theme =>
       justifyContent: 'center',
       top: 0,
     },
+    toolbar: {
+      height: 70
+    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
@@ -97,7 +100,7 @@ const AppToolbar = ({ isShutdown = false }) => {
           <ShutdownBanner />
         }
         <BrowserBanner />
-        <Toolbar>
+        <Toolbar className={classes.toolbar}>
           <RouterLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
             <OnrrLogoImg />
           </RouterLink>
