@@ -67,7 +67,7 @@ const SocialMenu = () => {
   if (data) {
     items = data.menus.nodes[0].menuItems.nodes
     return (
-      <>
+      <Box align="right">
         <nav>
           {items.map((item, index) => (
             <SocialLink key={index} 
@@ -77,11 +77,10 @@ const SocialMenu = () => {
             </SocialLink>
           ))}  
         </nav>
-        <Box style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-          <PhoneIcon style={{ color: 'white', marginRight: 10 }} /><SocialLink href="">Contact us</SocialLink>
+        <Box style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+          <PhoneIcon style={{ color: 'white', marginRight: 10 }} /><SocialLink href="" style={{ margin: 0 }}>Contact us</SocialLink>
         </Box>
-          
-      </>
+      </Box>
     )
   }
 }

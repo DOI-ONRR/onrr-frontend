@@ -16,7 +16,13 @@ const DefaultImageContainer = withStyles(theme =>
       '& > img': {
         height: 50,
         width: 50,
-        marginRight: theme.spacing(1)
+        marginRight: theme.spacing(1),
+        transition: 'height .1s',
+        [theme.breakpoints.down('sm')]: {
+          height: 35,
+          width: 35,
+          transition: 'height .1s'
+        },
       }
     }
   })

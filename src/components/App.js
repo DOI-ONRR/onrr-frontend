@@ -27,7 +27,7 @@ import Loading from './Loading'
 
 const PAGES_QUERY = gql`
   {
-    pages {
+    pages(first: 25, after: null) {
       nodes {
         content(format: RENDERED)
         pageId

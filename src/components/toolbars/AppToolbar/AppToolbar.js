@@ -46,9 +46,18 @@ const useStyles = makeStyles(theme =>
     },
     title: {
       flexGrow: 1,
-      display: 'none',
-      [theme.breakpoints.up('sm')]: {
-        display: 'block',
+      fontSize: '1.5rem',
+      '& .top': {
+        fontSize: '.85rem',
+        [theme.breakpoints.down('sm')]: {
+          fontSize: '.75rem'
+        },
+      },
+      '& .bottom': {
+        fonSize: '1rem',
+        [theme.breakpoints.down('sm')]: {
+          fontSize: '.95rem'
+        },
       },
     },
     search: {
@@ -109,10 +118,10 @@ const AppToolbar = ({ isShutdown = false }) => {
             <OnrrLogoImg />
           </RouterLink>
           
-          <Typography className={classes.title} variant="h1" noWrap style={{ fontSize: '1.5rem', margin: 0 }}>
+          <Typography className={classes.title} variant="h1" noWrap>
             <RouterLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
-            <Box variant="span" fontSize="1rem">U.S. Department of the Interior</Box>
-              Office of Natural Resources Revenue (ONRR)
+              <Box variant="span" className="top">U.S. Department of the Interior</Box>
+              <Box variant="span" className="bottom">Office of Natural Resources Revenue (ONRR)</Box>
             </RouterLink>
           </Typography>
           <Hidden smDown>
