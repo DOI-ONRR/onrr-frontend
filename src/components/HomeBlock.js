@@ -16,7 +16,7 @@ const DefaultHomeBlockContainer = withStyles(theme =>
   createStyles({
     root: {
       padding: theme.spacing(2),
-      minHeight: 330,
+      minHeight: 400,
       '& h4': {
         fontSize: 30,
         fontWeight: 400,
@@ -29,7 +29,8 @@ const DefaultHomeBlockContainer = withStyles(theme =>
         color: '#1478a6',
         marginBottom: theme.spacing(1)
       },
-      '& .lazyblock-home-page-link-block-ijOAO .link-repeater-item': {
+      '& .lazyblock-home-page-link-block-ijOAO .link-item': {
+        display: 'flex',
         marginBottom: theme.spacing(2)
       },
       '& .lazyblock-home-page-link-block-ijOAO a': {
@@ -41,9 +42,9 @@ const DefaultHomeBlockContainer = withStyles(theme =>
       '& .link-icon': {
         marginRight: theme.spacing(2)
       },
-      '& .link-bottom-container ': {
+      '& .link-bottom-container  .link-bottom-item:first-child': {
         borderTop: `1px solid ${ theme.palette.grey[400] }`,
-        marginTop: theme.spacing(1),
+        marginTop: theme.spacing(2),
         paddingTop: theme.spacing(1),
       }
     }

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+
+import { Link as RouterLink } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from '@apollo/client'
 
@@ -32,11 +33,12 @@ const MainMenu = ({ location }) => {
     return (
       <nav>
       {items.map((item, index) => (
-        <Link key={index} 
+        <RouterLink
+          key={index}
           to={`${item.path}`}
-          style={{ color: 'white', marginRight: 25, textDecoration: (location.pathname === item.path) ? 'none' : 'none' }}>
+          style={{ color: 'white', marginRight: 25, textDecoration: 'none' }}>
           {item.label}
-        </Link>
+        </RouterLink>
       ))}
       </nav>
     )

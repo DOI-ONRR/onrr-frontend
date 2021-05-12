@@ -5,6 +5,7 @@ import {
   AppBar,
   Box,
   Hidden,
+  Link as MuiLink,
   Toolbar,
   IconButton,
   Typography,
@@ -15,6 +16,8 @@ import { createStyles, fade, makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import { MainMenuToolbar } from '../MainMenuToolbar'
+import MainMenu from '../../navigation/MainMenu'
+import MobileMenu from '../../navigation/MobileMenu'
 
 import { InfoBanner } from '../../layouts/InfoBanner'
 import { BrowserBanner } from '../../layouts/BrowserBanner'
@@ -22,6 +25,7 @@ import { BrowserBanner } from '../../layouts/BrowserBanner'
 
 import AppMenu from '../../navigation/AppMenu'
 import OnrrLogoImg from '../../images/OnrrLogoImg'
+import MenuDrawer from '../../navigation/MenuDrawer'
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -116,14 +120,9 @@ const AppToolbar = ({ isShutdown = false }) => {
           </Hidden>
 
           <Hidden mdUp>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="open drawer"
-            >
-              <MenuIcon />
-            </IconButton>
+            <MenuDrawer>
+              <MobileMenu />
+            </MenuDrawer>
           </Hidden>
         </Toolbar>
         <Hidden smDown>

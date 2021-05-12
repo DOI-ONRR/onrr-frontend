@@ -27,6 +27,9 @@ const StickyHeaderContainer = withStyles(theme =>
       },
       '& .is-collapsed header': {
         height: 110,
+        [theme.breakpoints.down('sm')]: {
+          height: 60,
+        },
       },
       '& .is-collapsed header > div:first-child': {
         height: 0,

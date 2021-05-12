@@ -24,31 +24,7 @@ const StyledHeadingBlock = withStyles((theme, additionalStyles) =>
 
 
 const CoreHeadingBlock = ({ data }) => {
-  let variant
-  
-  switch (data.attributes.level) {
-    case 1:
-      variant = 'h1'
-      break
-    case 2:
-      variant = 'h2'
-      break
-    case 3:
-      variant = 'h3'
-      break
-    case 4:
-      variant = 'h4'
-      break
-    case 5:
-      variant = 'h5'
-      break
-    case 6:
-      variant = 'h6'
-      break
-    default:
-      variant = 'h1'
-      break
-  }
+  let variant = `h${ data.attributes.level || 1 }`
 
   return (
     <StyledHeadingBlock
