@@ -8,6 +8,24 @@ import {
   ListItem
 } from '@material-ui/core'
 
+import {
+  createStyles,
+  withStyles
+} from '@material-ui/core/styles'
+
+const StyledListItem = withStyles(theme =>
+  createStyles({
+    root: {
+      color: theme.palette.common.white,
+      marginRight: 25,
+      textDecoration: 'none',
+      '&:hover': {
+        background: 'rgba(6, 33, 53, .75)'
+      }
+    }
+  })
+)(ListItem)
+
 const MOBILE_MENU_QUERY = gql`
   {
     # main menu 
@@ -51,13 +69,13 @@ const MobileMenu = ({ location }) => {
     return (
       <>
       {items.map((item, index) => (
-        <ListItem button key={index}>
+        <StyledListItem button key={index}>
           <RouterLink key={index} 
             to={`${item.path}`}
             style={{ color: 'white', marginRight: 25, textDecoration: 'none' }}>
             {item.label}
           </RouterLink>
-        </ListItem>
+        </StyledListItem>
       ))}
       </>
     )

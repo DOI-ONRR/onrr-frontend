@@ -25,7 +25,6 @@ const CoreColumnsBlock = ({ data }) => {
   return (
     <Grid container spacing={3}>
       {blocks.length > 0 && blocks.map((block, i) => {
-        console.log('block content yo: ', block)
         return (
           <Grid key={`block__${i}`} item xs={12} md={colWidth}>
             <HomeBlock content={block.innerBlocks.map(item => item.dynamicContent)} />
