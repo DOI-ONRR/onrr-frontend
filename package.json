@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.14",
+    "@apollo/react-components": "^4.0.0",
     "@apollo/react-hooks": "^4.0.0",
     "@material-ui/core": "latest",
     "@material-ui/icons": "latest",
     "clsx": "latest",
+    "currency-formatter": "^1.5.8",
     "graphql": "^15.5.0",
     "html-react-parser": "^1.2.6",
     "react": "latest",

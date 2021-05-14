@@ -47,6 +47,7 @@ const useStyles = makeStyles(theme =>
     title: {
       flexGrow: 1,
       fontSize: '1.5rem',
+      fontWeight: 400,
       '& .top': {
         fontSize: '.85rem',
         [theme.breakpoints.down('sm')]: {
