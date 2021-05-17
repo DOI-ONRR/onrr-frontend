@@ -5,6 +5,7 @@ export default function useFetch(url) {
     useEffect(() => {
         async function loadData() {
             const response = await fetch(url);
+            console.debug('response yo: ', response)
             if(!response.ok) {
                 // oh no! something went wrong
                 return

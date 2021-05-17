@@ -2,6 +2,8 @@ import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from '@apollo/client'
 
+import useFetch from '../useFetch'
+
 import {
   Box,
   Typography,
