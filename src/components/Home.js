@@ -18,6 +18,7 @@ import {
 import Loading from './Loading'
 import Announcements from './Announcements'
 import RevenueStats from './RevenueStats'
+import ReporterLetters from './sections/ReporterLetters'
 
 import {
   CoreColumnsBlock,
@@ -129,6 +130,16 @@ const Home = ({ pageId, ...rest }) => {
                 return getBlockComponent(block.__typename, block)
               })
             }
+
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <ReporterLetters />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <ReporterLetters />
+              </Grid>
+            </Grid>
+
             <Grid container spacing={3}>
               <Grid item xs={12} md={12}>
                 <RevenueStats />

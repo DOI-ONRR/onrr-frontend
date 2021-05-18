@@ -16,7 +16,7 @@ import useFetch from '../useFetch'
 
 const directusClient = new ApolloClient({
   cache: new InMemoryCache(),
-  uri: 'http://localhost:8055/graphql',
+  uri: 'http://192.168.0.22:8055/graphql',
   defaultOptions: {
     watchQuery: {
       fetchPolicy: 'cache-and-network',
@@ -24,24 +24,14 @@ const directusClient = new ApolloClient({
   },
 })
 
-// const ANNOUNCEMENTS_QUERY = gql`
-//   {
-//     announcements {
-//       nodes {
-//         announcementId
-//         content(format: RENDERED)
-//         title(format: RENDERED)
-//       }
-//     }
-//   }
-// `
-
 const ANNOUNCEMENTS_QUERY = gql`
   query {
-    announcements {
-      id
-      title 
-      content
+    items {
+      announcements {
+        id
+        title 
+        content
+      } 
     }
   }
 `
@@ -55,7 +45,7 @@ const Announcements = ({ title }) => {
 
           if (data) {
             console.log('announcements data: ', data)
-            const announcements = data.announcements
+            const announcements = data.items.announcements
             return (
               <Grid container spacing={2}>
                 <Typography variant="h4" align="left" style={{ marginBottom: 20 }}>
