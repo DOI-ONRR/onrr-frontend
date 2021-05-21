@@ -24,11 +24,11 @@ import { formatToDollarInt } from '../../js/utils'
 const directusClient = new ApolloClient({
   cache: new InMemoryCache(),
   uri: `${ DIRECTUS_API_URL }/graphql/system`,
-  // defaultOptions: {
-  //   watchQuery: {
-  //     fetchPolicy: 'cache-and-network',
-  //   },
-  // },
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
+    },
+  },
 })
 
 const REPORTER_LETTERS_QUERY = gql`
@@ -68,6 +68,8 @@ const ReporterLetters = () => {
     <Query query={REPORTER_LETTERS_QUERY} client={directusClient}>
       {({ error, loading, data }) => {
         console.log('Reporter Letters data: ', data)
+        if (loading) return <Loading />
+        if (error) return `Error! ${ error.message }`
 
         let folder
         let files

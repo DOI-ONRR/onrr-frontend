@@ -2,8 +2,6 @@ import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from '@apollo/client'
 
-import useFetch from '../useFetch'
-
 import {
   Box,
   Typography,
@@ -21,10 +19,21 @@ import RevenueStats from './RevenueStats'
 import ReporterLetters from './sections/ReporterLetters'
 
 import {
+  ContentBlock,
   CoreColumnsBlock,
   CoreHeadingBlock, 
   CoreImageBlock
 } from './blocks'
+
+const HOME_PAGE_QUERY = gql`
+  query {
+    pages_by_id(id: 1) {
+      id
+      title
+      content
+    }
+  }
+`
 
 const components = {
   CoreHeadingBlock: CoreHeadingBlock,
@@ -40,68 +49,9 @@ const DefaultSectionContainer = withStyles(theme =>
   })
 )(Box)
 
-/* HOME QUERIES */
-const HOME_PAGE_QUERY = gql`
-  query HomePage($id: ID!) {
-    page(id: $id, idType: DATABASE_ID) {
-      id
-      databaseId
-      title(format: RENDERED)
-      slug
-      content(format: RENDERED)
-      blocks {
-        ... on CoreHeadingBlock {
-          attributes {
-            ... on CoreHeadingBlockAttributes {
-              align
-              content
-              level
-            }
-          }
-        }
-        ... on CoreImageBlock {
-          attributes {
-            ... on CoreImageBlockAttributes {
-              alt
-              rel
-              linkTarget
-              url
-              title
-            }
-          }
-        }
-        ... on CoreParagraphBlock {
-          dynamicContent
-          originalContent
-        }
-        ... on CoreHtmlBlock {
-          dynamicContent
-          originalContent
-        }
-        innerBlocks {
-          ... on CoreColumnBlock {
-            name
-            order
-            innerBlocks {
-              dynamicContent
-              originalContent
-              saveContent
-              ... on LazyblockHomePageLinkBlock {
-                dynamicContent
-                originalContent
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`
 
 const Home = ({ pageId, ...rest }) => {
-  const { loading, error, data } = useQuery(HOME_PAGE_QUERY, {
-    variables: { id: pageId }
-  })
+  const { loading, error, data } = useQuery(HOME_PAGE_QUERY)
 
   if (loading) return <Loading />
   if (error) return `Error! ${ error.message }`
@@ -117,19 +67,20 @@ const Home = ({ pageId, ...rest }) => {
 
   if (data) {
     console.log('Home data: ', data)
-    page = data.page
-    blocks = data.page.blocks
-    // menus = data.menu
-    console.debug('blocks yo: ', blocks)
+    page = data.pages_by_id
+
     return (
       <DefaultSectionContainer>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
-            {(blocks.length > 0) &&
+            <Box
+              dangerouslySetInnerHTML={{__html: page.content }} />
+
+            {/* {(blocks.length > 0) &&
               blocks.map(block => {
                 return getBlockComponent(block.__typename, block)
               })
-            }
+            } */}
 
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>

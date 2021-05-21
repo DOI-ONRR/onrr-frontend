@@ -15,17 +15,22 @@ import {
 } from '@material-ui/core/styles'
 
 const FOOTER_MENU_QUERY = gql`
-  {
-    menus(where: {id: 3}) {
-      nodes {
-        menuItems {
-          nodes {
-            label
-            menuItemId
-            path
-            order
-            target
-          }
+  query {
+    menu_items {
+      id
+      menu_label
+      custom_url
+      menu
+      link_to_page {
+        id
+        slug
+      }
+      parent {
+        id
+        custom_url
+        link_to_page {
+          id
+          slug
         }
       }
     }
@@ -67,7 +72,7 @@ const FooterMenu = () => {
   if (loading) return ''
   if (error) return `Error! ${ error.message }`
   if (data) {
-    items = data.menus.nodes[0].menuItems.nodes
+    items = data.menu_items.filter(item => item.menu === 'footer')
     items.map((item, index) => {
       if (index < 5) navTop.push(item)
       else navBottom.push(item)
@@ -78,18 +83,18 @@ const FooterMenu = () => {
           {navTop.map((item, index) => (
             <NavLink 
               key={index} 
-              href={`${item.path}`}
+              href={`${item.custom_url || item.link_to_page.slug}`}
               target={'_blank'}>
-                {item.label}
+                {item.menu_label}
             </NavLink>
           ))}
         </nav>
         <nav>
         {navBottom.map((item, index) => (
           <NavLink key={index} 
-            href={`${item.path}`}
+            href={`${item.custom_url || item.link_to_page.slug}`}
             target={'_blank'}>
-            {item.label}
+            {item.menu_label}
           </NavLink>
         ))}
         </nav>

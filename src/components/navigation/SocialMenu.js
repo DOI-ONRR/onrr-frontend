@@ -18,17 +18,22 @@ import YouTubeIcon from '@material-ui/icons/YouTube'
 import PhoneIcon from '@material-ui/icons/Phone'
 
 const SOCIAL_MENU_QUERY = gql`
-  {
-    menus(where: {id: 4}) {
-      nodes {
-        menuItems {
-          nodes {
-            label
-            menuItemId
-            path
-            order
-            target
-          }
+  query {
+    menu_items {
+      id
+      menu_label
+      custom_url
+      menu
+      link_to_page {
+        id
+        slug
+      }
+      parent {
+        id
+        custom_url
+        link_to_page {
+          id
+          slug
         }
       }
     }
@@ -52,8 +57,8 @@ const SocialLink = ({ children, href, label, rest }) => {
       {...rest}>
       {label === 'Facebook' && <FacebookIcon style={{ color: 'white' }} />}
       {label === 'Twitter' && <TwitterIcon style={{ color: 'white' }} />}
-      {label === 'Youtube' && <YouTubeIcon style={{ color: 'white' }} />}
-      {(label !== 'Facebook' && label !== 'Twitter' && label !== 'Youtube') && children}
+      {label === 'YouTube' && <YouTubeIcon style={{ color: 'white' }} />}
+      {(label !== 'Facebook' && label !== 'Twitter' && label !== 'YouTube') && children}
     </StyledMuiLink>
   )
 }
@@ -65,15 +70,15 @@ const SocialMenu = () => {
   if (loading) return ''
   if (error) return `Error! ${ error.message }`
   if (data) {
-    items = data.menus.nodes[0].menuItems.nodes
+    items = data.menu_items.filter(item => item.menu === 'social')
     return (
       <Box align="right">
         <nav>
           {items.map((item, index) => (
             <SocialLink key={index} 
-              href={`${item.path}`}
-              label={item.label}>
-              {item.label}
+              href={`${item.custom_url || item.link_to_page.slug}`}
+              label={item.menu_label}>
+              {item.menu_label}
             </SocialLink>
           ))}  
         </nav>

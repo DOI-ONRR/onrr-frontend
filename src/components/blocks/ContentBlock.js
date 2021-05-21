@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import {
   Paper,
-  Typography,
   useTheme
 } from '@material-ui/core'
 
@@ -12,7 +11,7 @@ import {
   withStyles
 } from '@material-ui/styles'
 
-const DefaultHomeBlockContainer = withStyles(theme => 
+const DefaultBlockContainer = withStyles(theme => 
   createStyles({
     root: {
       padding: theme.spacing(2),
@@ -51,15 +50,15 @@ const DefaultHomeBlockContainer = withStyles(theme =>
   })
 )(Paper)
 
-const HomeBlock = ({ loading, content }) => {
-  console.log('HomeBlock data: ', content)
+const ContentBlock = ({ loading, content }) => {
+  console.log('DefaultBlock data: ', content)
   const theme = useTheme()
   if (content) {
     return (
-      <DefaultHomeBlockContainer
+      <DefaultBlockContainer
         theme={theme}
         dangerouslySetInnerHTML={{__html: content }}>
-      </DefaultHomeBlockContainer>
+      </DefaultBlockContainer>
     )
   }
   else {
@@ -68,9 +67,9 @@ const HomeBlock = ({ loading, content }) => {
   
 }
 
-export default HomeBlock
+export default ContentBlock
 
-HomeBlock.propTypes = {
+ContentBlock.propTypes = {
   loading: PropTypes.bool,
   /* data */
   content: PropTypes.string.isRequired

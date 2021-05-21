@@ -5,7 +5,7 @@ import {
   Grid
 } from '@material-ui/core'
 
-import HomeBlock from '../HomeBlock'
+import ContentBlock from './ContentBlock'
 
 const CoreColumnsBlock = ({ data }) => {
   console.debug('CoreColumnsBlock data: ', data)
@@ -27,7 +27,7 @@ const CoreColumnsBlock = ({ data }) => {
       {blocks.length > 0 && blocks.map((block, i) => {
         return (
           <Grid key={`block__${i}`} item xs={12} md={colWidth}>
-            <HomeBlock content={block.innerBlocks.map(item => item.dynamicContent)} />
+            <ContentBlock content={block.innerBlocks.map(item => item.dynamicContent)} />
           </Grid>
         )
       })}

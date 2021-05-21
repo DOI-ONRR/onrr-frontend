@@ -26,17 +26,16 @@ import Page from './Page'
 import Loading from './Loading'
 
 const PAGES_QUERY = gql`
-  {
-    pages(first: 25, after: null) {
-      nodes {
-        content(format: RENDERED)
-        pageId
+  query {
+    pages {
+      id
+      slug
+      title
+      content
+      parent {
+        id
         slug
-        title(format: RENDERED)
-        status
-        template {
-          templateName
-        }
+        title
       }
     }
   }
@@ -68,7 +67,7 @@ const getPageComponent = (page) => {
   const components = {
     'home': Home
   }
-  const pageTemplate = page.template.templateName
+  const pageTemplate = page.template
   // check the template from the response 
   if(pageTemplate !== 'Default' && pageTemplate){
     return components[pageTemplate];
@@ -86,20 +85,21 @@ const App = () => {
   if (error) return `Error! ${ error.message }`
 
   if (data) {
+    console.debug('App data: ', data)
     // get all page data to build routes
-    pages = data.pages.nodes
+    pages = data.pages
     return (
       <DefaultAppContainer maxWidth={false} disableGutters={true}>
         <StickyHeader />
         <MainContentContainer maxWidth="lg">
           <Switch>
-            <Route path="/" render={(props) => <Home pageId={79} {...props} />} exact />
+            <Route path="/" render={(props) => <Home pageId={1} {...props} />} exact />
             {pages.map(page => {
               // use the identifyComponent function we wrote earlier
               let Template = getPageComponent(page)
-              let pageId = page.pageId
+              let pageId = page.id
               let parent = page.parent && page.parent.slug
-              return(
+              return (
                 <Route
                   key={pageId}
                   // if we have a parent, put that in front of the slug

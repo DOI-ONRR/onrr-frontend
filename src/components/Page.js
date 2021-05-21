@@ -13,13 +13,11 @@ import {
 import Loading from './Loading'
 
 const PAGE_QUERY = gql`
-  query Page($id: ID!) {
-    page(id: $id, idType: DATABASE_ID) {
+  query ($id: ID!) {
+    pages_by_id(id: $id) {
       id
-      databaseId
-      title(format: RENDERED)
-      slug
-      content(format: RENDERED)
+      title
+      content
     }
   }
 `
@@ -36,7 +34,7 @@ const Page = ({ pageId, ...rest }) => {
   
   if (data) {
     console.log('Page data: ', data)
-    page = data.page
+    page = data.pages_by_id
     return (
       <Grid container spacing={2}>
         <Grid item xs={3}>

@@ -9,12 +9,13 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider } from '@material-ui/core/styles'
 import App from './components/App'
 import theme from './theme'
+import { DIRECTUS_API_URL } from './constants'
 
 const cache = new InMemoryCache()
 
 const client = new ApolloClient({
   cache: cache,
-  uri: 'https://onrr-cms-dev.app.cloud.gov/graphql',
+  uri: `${ DIRECTUS_API_URL }/graphql`,
   defaultOptions: {
     watchQuery: {
       fetchPolicy: 'cache-and-network',
