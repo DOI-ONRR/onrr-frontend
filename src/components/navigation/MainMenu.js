@@ -1,4 +1,4 @@
-import React, { useState, useRef, createRef } from 'react'
+import React, { useState, useRef, createRef, useEffect } from 'react'
 
 import { Link as RouterLink } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
@@ -13,12 +13,15 @@ import {
   Menu,
   MenuItem, 
   MenuList,
+  ListItem,
+  Collapse,
   createStyles
 } from '@material-ui/core'
 
 import {
   withStyles
 } from '@material-ui/core/styles'
+import { groupBy } from '../../js/utils'
 
 /* Main Menu Query */
 const MAIN_MENU_QUERY = gql`
@@ -52,34 +55,54 @@ const HorizontalMenuList = withStyles(theme =>
   })
 )(MenuList)
 
+const MenuButton = withStyles(theme => 
+  createStyles({
+    root: {
+      color: theme.palette.common.white,
+      textTransform: 'capitalize'
+    }
+  })
+)(Button)
+
+const StyledMenu = withStyles(theme => 
+  createStyles({
+    paper: {
+      boxShadow: '0 1px 1px 1px rgba(0, 0, 0, .1)'
+    }
+  })
+)(Menu)
+
+const SubMenu = ({ anchorEl, handleClose, data }) => {
+  console.debug('SubMenu data: ', data)
+  return (
+    <StyledMenu
+      id="main-menu"
+      anchorEl={anchorEl}
+      keepMounted
+      open={Boolean(anchorEl)}
+      onClose={handleClose}>
+        { data.map((item, i) => (<MenuItem onClick={handleClose} key={`mi__${ i }`}>{item.menu_label}</MenuItem>)) }
+    </StyledMenu>
+  )
+}
+
 const MainMenu = ({ location }) => {
-  const [open, setOpen] = useState(false)
-  const anchorRef = useRef(null)
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const { loading, error, data } = useQuery(MAIN_MENU_QUERY)
 
-  let menuItems
-  let parent
+  let menuItems = []
+  let childItems
+  let parentId
   let customUrl
-  let menuRefs = useRef(new Array())
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen)
+  const handleClick = (index, event) => {
+    console.log('handleClick event: ', event)
+    setAnchorEl({ [index]: event.target })
   }
 
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return
-    }
-
-    setOpen(false)
-  }
-
-  const handleListKeyDown = (event) => {
-    if (event.key === 'Tab') {
-      event.preventDefault()
-      setOpen(false)
-    }
+  const handleClose = () => {
+    setAnchorEl(null)
   }
 
   if (loading) return ''
@@ -87,43 +110,39 @@ const MainMenu = ({ location }) => {
 
   if (data) {
     console.debug('main menu data: ', data)
-    menuItems = data.menu_items.filter(item => item.menu === 'main' && item.parent === null)
+    childItems = data.menu_items.filter(item => item.menu === 'main' && item.parent !== null)
+    const items = data.menu_items.filter(item => item.menu === 'main').map(item => {
+      if (item.parent === null) {
+        menuItems.push({ key: item, data: [...childItems.filter(child => child.parent.id === item.id)] })
+      }
+    })
+
+    console.debug('menuItems: ', menuItems)
+
     return (
-      <HorizontalMenuList>
-      {menuItems.map((item, index) => {
-        parent = (item.parent !== null) && (item.parent.custom_url || item.parent.link_to_page.slug)
-        customUrl = item.custom_url !== null
-        const getRef = (element) => (menuRefs.current.push(element))
+      <>
+      {menuItems.map((item, i) => {
         return (
           <>
-          <MenuItem
-            ref={getRef}
-            className
-            onClick={handleToggle}>
-            {item.menu_label}
-          </MenuItem>
-          <Popper open={open} anchorEl={getRef.current} role={undefined} transition disablePortal>
-            {({ TransitionProps, placement }) => (
-              <Grow
-                {...TransitionProps}
-                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-              >
-                <Paper>
-                  <ClickAwayListener onClickAway={handleClose}>
-                    <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                      <MenuItem onClick={handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={handleClose}>My account</MenuItem>
-                      <MenuItem onClick={handleClose}>Logout</MenuItem>
-                    </MenuList>
-                  </ClickAwayListener>
-                </Paper>
-              </Grow>
-            )}
-          </Popper>
-        </>
+            <MenuButton
+              key={`mb__${ i }`}
+              onClick={(e) => handleClick(i, e)}>
+              {item.key.menu_label}
+            </MenuButton>
+            {item.data.length > 0 &&
+            <StyledMenu
+              id="main-menu"
+              anchorEl={anchorEl && anchorEl[i]}
+              keepMounted
+              open={Boolean(anchorEl && anchorEl[i])}
+              onClose={() => setAnchorEl(null)}>
+                { item.data.map((subMenuItem, i) => (<MenuItem onClick={() => setAnchorEl(null)} key={`mi__${ i }`}>{subMenuItem.menu_label}</MenuItem>)) }
+            </StyledMenu>
+            }
+          </>
         )
       })}
-      </HorizontalMenuList>
+      </>
     )
   }
 }
