@@ -72,17 +72,9 @@ const StyledMenu = withStyles(theme =>
   })
 )(Menu)
 
-const SubMenu = ({ anchorEl, handleClose, data }) => {
-  console.debug('SubMenu data: ', data)
+const MenuLink = link => {
   return (
-    <StyledMenu
-      id="main-menu"
-      anchorEl={anchorEl}
-      keepMounted
-      open={Boolean(anchorEl)}
-      onClose={handleClose}>
-        { data.map((item, i) => (<MenuItem onClick={handleClose} key={`mi__${ i }`}>{item.menu_label}</MenuItem>)) }
-    </StyledMenu>
+    <RouterLink>My menu link</RouterLink>
   )
 }
 
@@ -109,7 +101,7 @@ const MainMenu = ({ location }) => {
   if (error) return `Error! ${ error.message }`
 
   if (data) {
-    console.debug('main menu data: ', data)
+    // console.debug('main menu data: ', data)
     childItems = data.menu_items.filter(item => item.menu === 'main' && item.parent !== null)
     const items = data.menu_items.filter(item => item.menu === 'main').map(item => {
       if (item.parent === null) {
@@ -117,7 +109,7 @@ const MainMenu = ({ location }) => {
       }
     })
 
-    console.debug('menuItems: ', menuItems)
+    // console.debug('menuItems: ', menuItems)
 
     return (
       <>
@@ -136,7 +128,14 @@ const MainMenu = ({ location }) => {
               keepMounted
               open={Boolean(anchorEl && anchorEl[i])}
               onClose={() => setAnchorEl(null)}>
-                { item.data.map((subMenuItem, i) => (<MenuItem onClick={() => setAnchorEl(null)} key={`mi__${ i }`}>{subMenuItem.menu_label}</MenuItem>)) }
+                { item.data.map((subMenuItem, i) => (
+                <MenuItem
+                  component={RouterLink}
+                  to={`/${ item.key.link_to_page.slug }/${ subMenuItem.link_to_page.slug }`}
+                  onClick={() => setAnchorEl(null)} key={`mi__${ i }`}>
+                  {subMenuItem.menu_label}
+                </MenuItem>
+                ))}
             </StyledMenu>
             }
           </>
