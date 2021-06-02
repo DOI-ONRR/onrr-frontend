@@ -32,6 +32,16 @@ const HOME_PAGE_QUERY = gql`
       title
       content
     }
+    content_blocks {
+      id
+      title 
+      content
+      show_title
+      page {
+        id
+        title
+      }
+    }
   }
 `
 
@@ -39,6 +49,7 @@ const components = {
   CoreHeadingBlock: CoreHeadingBlock,
   CoreImageBlock: CoreImageBlock,
   CoreColumnsBlock: CoreColumnsBlock,
+  ContentBlock: ContentBlock
 }
 
 const DefaultSectionContainer = withStyles(theme => 
@@ -68,6 +79,7 @@ const Home = ({ pageId, ...rest }) => {
   if (data) {
     console.log('Home data: ', data)
     page = data.pages_by_id
+    blocks = data.content_blocks.filter(block => block.page !== null && block.page.id === 1)
 
     return (
       <DefaultSectionContainer>
@@ -76,11 +88,27 @@ const Home = ({ pageId, ...rest }) => {
             <Box
               dangerouslySetInnerHTML={{__html: page.content }} />
 
-            {/* {(blocks.length > 0) &&
-              blocks.map(block => {
-                return getBlockComponent(block.__typename, block)
+            <Grid container spacing={3}>
+            {(blocks.length > 0) &&
+              blocks.map((block, i) => {
+                if (i <= 1) {
+                  return (
+                    <Grid item xs={12} md={6}>
+                      { getBlockComponent('ContentBlock', block) }
+                    </Grid>
+                  )
+                }
+
+                if (i > 1 && i <= 4) {
+                  return (
+                    <Grid item xs={12} md={4} style={{ minHeight: 250 }}>
+                      { getBlockComponent('ContentBlock', block) }
+                    </Grid>
+                  )
+                }
               })
-            } */}
+            }
+            </Grid>
 
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>

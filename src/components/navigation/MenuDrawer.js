@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import {
+  ClickAwayListener,
   Drawer,
   IconButton,
   Link as MuiLink,
@@ -59,6 +60,10 @@ const MenuDrawer = ({ children }) => {
     setMenuState({ ...menuState, [anchor]: open })
   }
 
+  const handleClickAway = () => {
+    setMenuState({ ...menuState, 'right': false })
+  }
+
   // list 
   const list = (anchor) => (
     <div
@@ -83,7 +88,8 @@ const MenuDrawer = ({ children }) => {
   )
 
   return (
-    <>
+    <ClickAwayListener onClickAway={handleClickAway}>
+      <div>
       <StyledIconButton
         aria-label="mobile-menu"
         onClick={toggleDrawer('right', true)}>
@@ -95,7 +101,8 @@ const MenuDrawer = ({ children }) => {
         onClose={toggleDrawer('right', false)}>
         {list('right')}
       </DrawerContainer>
-    </>
+      </div>
+    </ClickAwayListener>
   )
 }
 

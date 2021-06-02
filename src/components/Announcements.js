@@ -9,7 +9,15 @@ import {
   Grid
 } from '@material-ui/core'
 
+import { makeStyles } from '@material-ui/core/styles'
+
 import Loading from './Loading'
+
+const useStyles = makeStyles({
+  card: {
+    backgroundColor: '#f1f1f1',
+  }
+})
 
 const ANNOUNCEMENTS_QUERY = gql`
   query {
@@ -23,6 +31,7 @@ const ANNOUNCEMENTS_QUERY = gql`
 
 const Announcements = ({ title }) => {
   const { loading, error, data } = useQuery(ANNOUNCEMENTS_QUERY)
+  const classes = useStyles()
 
   if (loading) return <Loading />
   if (error) return `Error! ${ error.message }`
@@ -36,7 +45,7 @@ const Announcements = ({ title }) => {
         </Typography>
         {announcements.map((announcement, index) => (
           <Grid item xs={12} key={index}>
-            <Card>
+            <Card className={classes.card}>
               <CardContent>
                 <h3 key={announcement.id}>{announcement.title}</h3>
                 <Typography

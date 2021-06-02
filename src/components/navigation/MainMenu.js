@@ -72,12 +72,6 @@ const StyledMenu = withStyles(theme =>
   })
 )(Menu)
 
-const MenuLink = link => {
-  return (
-    <RouterLink>My menu link</RouterLink>
-  )
-}
-
 const MainMenu = ({ location }) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -128,6 +122,12 @@ const MainMenu = ({ location }) => {
               keepMounted
               open={Boolean(anchorEl && anchorEl[i])}
               onClose={() => setAnchorEl(null)}>
+                <MenuItem
+                  component={RouterLink}
+                  to={`/${ item.key.link_to_page.slug }`}
+                  onClick={() => setAnchorEl(null)} key={`mi__${ i }`}>
+                  {`${ item.key.menu_label } Home`}
+                </MenuItem>
                 { item.data.map((subMenuItem, i) => (
                 <MenuItem
                   component={RouterLink}

@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import {
+  Box,
   Paper,
+  Typography,
   useTheme
 } from '@material-ui/core'
 
@@ -50,14 +52,15 @@ const DefaultBlockContainer = withStyles(theme =>
   })
 )(Paper)
 
-const ContentBlock = ({ loading, content }) => {
-  console.log('DefaultBlock data: ', content)
+const ContentBlock = ({ loading, data }) => {
+  console.log('DefaultBlock data: ', data)
   const theme = useTheme()
-  if (content) {
+  if (data) {
     return (
       <DefaultBlockContainer
-        theme={theme}
-        dangerouslySetInnerHTML={{__html: content }}>
+        theme={theme}>
+          {(data.show_title) && <Typography variant="h4" dangerouslySetInnerHTML={{__html: data.title }} />}
+          <Box dangerouslySetInnerHTML={{__html: data.content }}></Box>
       </DefaultBlockContainer>
     )
   }
