@@ -93,7 +93,7 @@ const Home = ({ pageId, ...rest }) => {
               blocks.map((block, i) => {
                 if (i <= 1) {
                   return (
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={6} key={`grid6__${ i }`}>
                       { getBlockComponent('ContentBlock', block) }
                     </Grid>
                   )
@@ -101,7 +101,7 @@ const Home = ({ pageId, ...rest }) => {
 
                 if (i > 1 && i <= 4) {
                   return (
-                    <Grid item xs={12} md={4} style={{ minHeight: 250 }}>
+                    <Grid item xs={12} md={4}  key={`grid4__${ i }`} style={{ minHeight: 250 }}>
                       { getBlockComponent('ContentBlock', block) }
                     </Grid>
                   )

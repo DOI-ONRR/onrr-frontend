@@ -75,5 +75,5 @@ export default ContentBlock
 ContentBlock.propTypes = {
   loading: PropTypes.bool,
   /* data */
-  content: PropTypes.string.isRequired
+  content: PropTypes.string
 }

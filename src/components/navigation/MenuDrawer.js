@@ -41,37 +41,25 @@ const DrawerContainer = withStyles(theme =>
 )(Drawer)
 
 const MenuDrawer = ({ children }) => {
-  const [menuState, setMenuState] = useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false
-  })
+  const [open, setOpen] = useState(false)
 
   // Toggle drawer
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return
-    }
+  const handleDrawerOpen = () => {
+    setOpen(true)
+  }
 
-    setMenuState({ ...menuState, [anchor]: open })
+  const handleDrawerClose = () => {
+    setOpen(false)
   }
 
   const handleClickAway = () => {
-    setMenuState({ ...menuState, 'right': false })
+    handleDrawerClose()
   }
 
   // list 
-  const list = (anchor) => (
-    <div
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}>
-        <List>
-        <StyledIconButton aria-label="Close menu" onClick={toggleDrawer('right', false)}>
+  const list = clickHandler => (
+      <List>
+        <StyledIconButton aria-label="Close menu" onClick={clickHandler}>
           <CloseIcon />
         </StyledIconButton>
         {
@@ -84,23 +72,22 @@ const MenuDrawer = ({ children }) => {
           })
         }
       </List>
-    </div>
   )
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <div>
-      <StyledIconButton
-        aria-label="mobile-menu"
-        onClick={toggleDrawer('right', true)}>
-        <MenuIcon />
-      </StyledIconButton>
-      <DrawerContainer
-        anchor={'right'}
-        open={menuState.right}
-        onClose={toggleDrawer('right', false)}>
-        {list('right')}
-      </DrawerContainer>
+        <StyledIconButton
+          aria-label="mobile-menu"
+          onClick={handleDrawerOpen}>
+          <MenuIcon />
+        </StyledIconButton>
+        <DrawerContainer
+          // variant="persistent"
+          anchor={'right'}
+          open={open}>
+          {list(handleDrawerClose)}
+        </DrawerContainer>
       </div>
     </ClickAwayListener>
   )

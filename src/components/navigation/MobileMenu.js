@@ -27,7 +27,8 @@ const StyledListItem = withStyles(theme =>
       textDecoration: 'none',
       '&:hover': {
         background: 'rgba(6, 33, 53, .75)'
-      }
+      },
+      borderBottom: '1px solid #253D4E',
     }
   })
 )(ListItem)
@@ -66,13 +67,14 @@ const MOBILE_MENU_QUERY = gql`
 
 const MobileMenu = ({ location }) => {
   const { loading, error, data } = useQuery(MOBILE_MENU_QUERY)
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState({})
 
   let menuItems = []
   let childItems
 
-  const handleClick = event => {
-    setOpen((prev) => !prev)
+  const handleClick = (index, event) => {
+    console.log('handleClick index, event: ', index, event)
+    setOpen(prevState => ({ ...prevState, [index]: !prevState[index] }))
   }
 
   if (loading) return ''
@@ -92,28 +94,39 @@ const MobileMenu = ({ location }) => {
         {menuItems.map((item, i) => {
           return (
             <>
-              <StyledListItem button key={i} onClick={handleClick}>
+              <StyledListItem button key={i} onClick={(e) => handleClick(i, e)}>
                 <RouterLink key={i} 
-                  // to={`/${ item.key.link_to_page.slug }`}
+                  // to={item.key.custom_url || '/' + item.key.link_to_page.slug}
                   style={{ color: 'white', marginRight: 25, textDecoration: 'none' }}>
                   {item.key.menu_label}
                 </RouterLink>
                 {item.data.length > 0 &&
                   <>
-                   { open ? <ExpandLess /> : <ExpandMore /> }
+                   { open[i] ? <ExpandLess /> : <ExpandMore /> }
                   </>
                 }
               </StyledListItem>
               {item.data.length > 0 &&
-                open ? (
+                <Collapse in={open[i]}>
                   <List component="div" disablePadding>
+                    <StyledNestedListItem button key={item.id}>
+                      <RouterLink key={i} 
+                        to={item.key.custom_url || '/' + item.key.link_to_page.slug}
+                        style={{ color: 'white', marginRight: 25, textDecoration: 'none' }}>
+                        {`${ item.key.menu_label } Home`}
+                      </RouterLink>
+                    </StyledNestedListItem>
                     { item.data.map((subMenuItem, i) => (
                       <StyledNestedListItem button key={i}>
-                        {subMenuItem.menu_label}
+                        <RouterLink key={i} 
+                          to={subMenuItem.custom_url || '/' + item.key.link_to_page.slug + '/' + subMenuItem.link_to_page.slug}
+                          style={{ color: 'white', marginRight: 25, textDecoration: 'none' }}>
+                          {subMenuItem.menu_label}
+                        </RouterLink>
                       </StyledNestedListItem>
                     ))}
                   </List>
-                ) : null
+                </Collapse>
               }
             </>
           )

@@ -130,6 +130,7 @@ const MainMenu = ({ location }) => {
                 </MenuItem>
                 { item.data.map((subMenuItem, i) => (
                 <MenuItem
+                  key={`smi__${ i }`}
                   component={RouterLink}
                   to={`/${ item.key.link_to_page.slug }/${ subMenuItem.link_to_page.slug }`}
                   onClick={() => setAnchorEl(null)} key={`mi__${ i }`}>
