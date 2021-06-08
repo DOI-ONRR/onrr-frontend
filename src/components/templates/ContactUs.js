@@ -4,6 +4,9 @@ import { useQuery } from '@apollo/react-hooks'
 import { gql } from '@apollo/client'
 
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Card,
   CardContent,
@@ -15,6 +18,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles'
 
 import MailIcon from '@material-ui/icons/Mail'
 import PhoneIcon from '@material-ui/icons/Phone'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import Loading from '../Loading'
 
@@ -31,6 +35,11 @@ const useStyles = makeStyles(theme =>
       background: theme.palette.grey[600],
       padding: theme.spacing(2),
       color: theme.palette.common.white,
+    },
+    accordion: {
+      '& .MuiAccordionDetails-root': {
+        display: 'inherit'
+      }
     }
   })
 )
@@ -42,9 +51,33 @@ const CONTACTS_QUERY = gql`
       primary_contact
       primary_email
       primary_phone
+      backup_contact
+      backup_email
+      backup_phone
     }
   }
 `
+
+const ContactAccordion = ({ summary, details }) => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.accordion}>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography className={classes.heading}>{summary}</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          {details}
+        </AccordionDetails>
+      </Accordion>
+    </div>
+  )
+}
 
 const ContactUs = () => {
   const { loading, error, data } = useQuery(CONTACTS_QUERY)
@@ -87,7 +120,21 @@ const ContactUs = () => {
                   {contact.primary_phone && <PhoneIcon /> } {contact.primary_phone}
                 </Grid>
               </Grid>
+              <Grid container xs={12}>
+                <Grid item xs={12}>
+                  {contact.backup_contact &&
+                  <ContactAccordion summary="Additional Contacts" 
+                  details={
+                    <>
+                      <Box display="block">{contact.backup_contact}</Box>
+                      <Box display="block">{contact.backup_email}</Box>
+                      <Box display="block">{contact.backup_phone}</Box>
+                    </>
+                  } />
+                  }
+                </Grid>
               </Grid>
+            </Grid>
           ))}
           
         </Grid>
