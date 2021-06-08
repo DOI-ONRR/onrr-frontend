@@ -22,6 +22,7 @@ import Header from './Header'
 import Footer from './Footer'
 import Home from './Home'
 import Page from './Page'
+import ContactUs from './templates/ContactUs'
 
 import Loading from './Loading'
 
@@ -32,6 +33,7 @@ const PAGES_QUERY = gql`
       slug
       title
       content
+      template
       parent {
         id
         slug
@@ -65,11 +67,12 @@ const getPageComponent = (page) => {
   console.log('getPageComponent page: ', page)
   // this is where you map your template names to a component 
   const components = {
-    'home': Home
+    'home': Home,
+    'contact': ContactUs
   }
   const pageTemplate = page.template
   // check the template from the response 
-  if(pageTemplate !== 'Default' && pageTemplate){
+  if(pageTemplate && pageTemplate !== 'default'){
     return components[pageTemplate];
   } else {
     return Page

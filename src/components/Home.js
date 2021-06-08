@@ -79,7 +79,7 @@ const Home = ({ pageId, ...rest }) => {
   if (data) {
     console.log('Home data: ', data)
     page = data.pages_by_id
-    blocks = data.content_blocks.filter(block => block.page !== null && block.page.id === 1)
+    blocks = data.content_blocks.filter(block => block.page !== null && block.page.id === '1')
 
     return (
       <DefaultSectionContainer>
