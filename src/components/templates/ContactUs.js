@@ -54,6 +54,9 @@ const CONTACTS_QUERY = gql`
       backup_contact
       backup_email
       backup_phone
+      supervisor
+      supervisor_email
+      supervisor_phone
     }
   }
 `
@@ -120,20 +123,35 @@ const ContactUs = () => {
                   {contact.primary_phone && <PhoneIcon /> } {contact.primary_phone}
                 </Grid>
               </Grid>
-              <Grid container xs={12}>
-                <Grid item xs={12}>
-                  {contact.backup_contact &&
-                  <ContactAccordion summary="Additional Contacts" 
-                  details={
-                    <>
-                      <Box display="block">{contact.backup_contact}</Box>
-                      <Box display="block">{contact.backup_email}</Box>
-                      <Box display="block">{contact.backup_phone}</Box>
-                    </>
-                  } />
-                  }
+              {contact.backup_contact &&
+                <Grid container xs={12}>
+                  <Grid item xs={12}>
+                    <ContactAccordion summary="Additional Contacts" 
+                    details={
+                      <>
+                        <Box>{contact.backup_contact}</Box>
+                        <Box>{contact.backup_email}</Box>
+                        <Box>{contact.backup_phone}</Box>
+                      </>
+                    } />
+                  </Grid>
                 </Grid>
-              </Grid>
+              }
+
+              {contact.supervisor &&
+                <Grid container xs={12}>
+                  <Grid item xs={12}>
+                    <ContactAccordion summary="Supervisor" 
+                    details={
+                      <>
+                        <Box>{contact.supervisor}</Box>
+                        <Box>{contact.supervisor_email}</Box>
+                        <Box>{contact.supervisor_phone}</Box>
+                      </>
+                    } />
+                  </Grid>
+                </Grid>
+              }
             </Grid>
           ))}
           
