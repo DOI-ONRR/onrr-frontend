@@ -36,7 +36,7 @@ const Page = ({ pageId, ...rest }) => {
     console.log('Page data: ', data)
     page = data.pages_by_id
     return (
-      <Grid container spacing={2}>
+      <Grid container spacing={2} style={{ paddingTop: 25 }}>
         <Grid item xs={3}>
           <Card>
             <CardContent>
@@ -46,7 +46,7 @@ const Page = ({ pageId, ...rest }) => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={9} style={{ paddingTop: 25, paddingBottom: 50 }}>
           <Typography 
             variant="h4" 
             style={{ fontSize: 30 }}

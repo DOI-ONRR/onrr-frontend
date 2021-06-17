@@ -3,9 +3,11 @@ import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from '@apollo/client'
 
+import { Link as RouterLink } from 'react-router-dom'
+
 import { 
   Box,
-  Link as MuiLink
+  // Link as RouterLink
 } from '@material-ui/core'
 import {
   withStyles,
@@ -78,8 +80,8 @@ const AppMenu = () => {
                 { item.menu_label === 'Contact Us' && <PhoneIcon /> }
                 { item.menu_label === 'Events' && <EventIcon /> }
                 { item.menu_label === 'Revenue Data' && <BarChartIcon /> }
-                { item.custom_url !== null && <MuiLink href={item.custom_url}>{item.menu_label}</MuiLink> }
-                { item.link_to_page !== null && <MuiLink href={`${ parent ? '/' + parent : ''}/${ item.link_to_page.slug }`}>{item.menu_label}</MuiLink> }
+                { item.custom_url !== null && <a href={item.custom_url}>{item.menu_label}</a> }
+                { item.link_to_page !== null && <RouterLink to={`${ parent ? '/' + parent : ''}/${ item.link_to_page.slug }`}>{item.menu_label}</RouterLink> }
               </NavIconLinkContainer>
             )
           })

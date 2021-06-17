@@ -51,12 +51,6 @@ const CONTACTS_QUERY = gql`
       primary_contact
       primary_email
       primary_phone
-      backup_contact
-      backup_email
-      backup_phone
-      supervisor
-      supervisor_email
-      supervisor_phone
     }
   }
 `
