@@ -83,7 +83,7 @@ const Home = ({ pageId, ...rest }) => {
     blocks = data.content_blocks.filter(block => block.page !== null && block.page.id === '1')
 
     return (
-      <DefaultSectionContainer maxWidth="xl">
+      <DefaultSectionContainer maxWidth="lg">
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
             <Box

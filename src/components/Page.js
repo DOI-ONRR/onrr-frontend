@@ -73,7 +73,7 @@ const Page = ({ pageId, ...rest }) => {
               <h1 style={{ fontWeight: 400 }}>{page.title}</h1></div>
           </div>
         }
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Grid container spacing={2} style={{ paddingTop: 25 }}>
           <Grid item xs={3}>
             <Card>
