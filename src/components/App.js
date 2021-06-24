@@ -57,7 +57,7 @@ const MainContentContainer = withStyles(theme =>
   createStyles({
     root: {
       flex: 1,
-      marginTop: 20,
+      padding: 0,
       minHeight: 500,
     }
   })
@@ -94,7 +94,7 @@ const App = () => {
     return (
       <DefaultAppContainer maxWidth={false} disableGutters={true}>
         <StickyHeader />
-        <MainContentContainer maxWidth="lg">
+        <MainContentContainer maxWidth="false">
           <Switch>
             <Route path="/" render={(props) => <Home pageId={1} {...props} />} exact />
             {pages.map(page => {

@@ -4,6 +4,7 @@ import { gql } from '@apollo/client'
 
 import {
   Box,
+  Container,
   Typography,
   Grid
 } from '@material-ui/core'
@@ -58,7 +59,7 @@ const DefaultSectionContainer = withStyles(theme =>
       paddingBottom: theme.spacing(6)
     }
   })
-)(Box)
+)(Container)
 
 
 const Home = ({ pageId, ...rest }) => {
@@ -82,7 +83,7 @@ const Home = ({ pageId, ...rest }) => {
     blocks = data.content_blocks.filter(block => block.page !== null && block.page.id === '1')
 
     return (
-      <DefaultSectionContainer>
+      <DefaultSectionContainer maxWidth="xl">
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
             <Box
