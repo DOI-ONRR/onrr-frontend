@@ -10,6 +10,7 @@ import {
   Box,
   Card,
   CardContent,
+  Container,
   Grid,
   Typography
 } from '@material-ui/core'
@@ -89,7 +90,8 @@ const ContactUs = () => {
     contacts = data.contacts
     console.log('contacts: ', contacts)
     return (
-      <Grid container spacing={2}>
+      <Container maxWidth="lg">
+        <Grid container spacing={2}>
         <Grid item xs={3}>
           <Card>
             <CardContent>
@@ -151,6 +153,7 @@ const ContactUs = () => {
           
         </Grid>
       </Grid>
+      </Container>
     )
   }
 }
