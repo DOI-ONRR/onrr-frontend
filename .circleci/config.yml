@@ -35,19 +35,18 @@ jobs:
     steps:
       - checkout 
       - node/install-packages
-      
-      - run:
-          command: |
-            ls -lart build
+
+      - run: 
+          name: Build app
+          command: npm run build
+
       - aws-s3/sync:
           aws-access-key-id: NPS_AWS_ACCESS_KEY
           aws-region: NPS_AWS_REGION
           aws-secret-access-key: NPS_AWS_SECRET_ACCESS_KEY
           from: build
           to: 's3://$NPS_BUCKET_NAME/sites/$CIRCLE_BRANCH'
-      - run: 
-          name: Build app
-          command: npm run build
+          
       - run: 
           name: deploy preview to cloud.gov
           command: |
