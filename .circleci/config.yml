@@ -46,6 +46,11 @@ jobs:
           aws-secret-access-key: NPS_AWS_SECRET_ACCESS_KEY
           from: build
           to: 's3://$NPS_BUCKET_NAME/sites/$CIRCLE_BRANCH'
+
+      - run:
+          name: Clean up previews
+          command: |
+            bash ./.circleci/cleanup-previews.sh
           
       # - run: 
       #     name: deploy preview to cloud.gov
