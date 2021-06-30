@@ -5,29 +5,29 @@ orbs:
   aws-s3: circleci/aws-s3@2.0.0
 
 jobs:
-  build-and-deploy:
-    docker:
-      - image: cimg/node:15.1
-    steps:
-      - checkout
-      - node/install-packages
+  # build-and-deploy:
+  #   docker:
+  #     - image: cimg/node:15.1
+  #   steps:
+  #     - checkout
+  #     - node/install-packages
 
-      - run: 
-          name: Run build
-          command: npm run build
+  #     - run: 
+  #         name: Run build
+  #         command: npm run build
 
-      - run: 
-          name: Deploy to cloud.gov
-          command: |
-            pwd && ls -l
-            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
-            sudo dpkg -i cf-cli_amd64.deb  
-            # Set $CF_USERNAME and $CF_PASSWORD in CircleCI settings.
-            # $CF_ORG, $CF_SPACE, and $APP_NAME can also be set in CircleCI settings or hardcoded here.
-            cf api https://api.fr.cloud.gov
-            cf auth "$DEV_CF_USERNAME" "$DEV_CF_PASSWORD"
-            cf target -o "$DEV_CF_ORG" -s "$DEV_CF_SPACE"
-            cf push dev-onrr-frontend -f ./manifest.yml
+  #     - run: 
+  #         name: Deploy to cloud.gov
+  #         command: |
+  #           pwd && ls -l
+  #           curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+  #           sudo dpkg -i cf-cli_amd64.deb  
+  #           # Set $CF_USERNAME and $CF_PASSWORD in CircleCI settings.
+  #           # $CF_ORG, $CF_SPACE, and $APP_NAME can also be set in CircleCI settings or hardcoded here.
+  #           cf api https://api.fr.cloud.gov
+  #           cf auth "$DEV_CF_USERNAME" "$DEV_CF_PASSWORD"
+  #           cf target -o "$DEV_CF_ORG" -s "$DEV_CF_SPACE"
+  #           cf push dev-onrr-frontend -f ./manifest.yml
   
   onrr-preview:
     docker:
@@ -47,23 +47,23 @@ jobs:
           from: build
           to: 's3://$NPS_BUCKET_NAME/sites/$CIRCLE_BRANCH'
           
-      - run: 
-          name: deploy preview to cloud.gov
-          command: |
-            pwd && ls -l
-            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
-            sudo dpkg -i cf-cli_amd64.deb  
-            # Set $CF_USERNAME and $CF_PASSWORD in CircleCI settings.
-            # $CF_ORG, $CF_SPACE, and $APP_NAME can also be set in CircleCI settings or hardcoded here.
-            cf api https://api.fr.cloud.gov
-            cf auth "$DEV_CF_USERNAME" "$DEV_CF_PASSWORD"
-            cf target -o "$DEV_CF_ORG" -s "$DEV_CF_SPACE"
-            cf push dev-onrr-frontend -f ./manifest.yml
+      # - run: 
+      #     name: deploy preview to cloud.gov
+      #     command: |
+      #       pwd && ls -l
+      #       curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+      #       sudo dpkg -i cf-cli_amd64.deb  
+      #       # Set $CF_USERNAME and $CF_PASSWORD in CircleCI settings.
+      #       # $CF_ORG, $CF_SPACE, and $APP_NAME can also be set in CircleCI settings or hardcoded here.
+      #       cf api https://api.fr.cloud.gov
+      #       cf auth "$DEV_CF_USERNAME" "$DEV_CF_PASSWORD"
+      #       cf target -o "$DEV_CF_ORG" -s "$DEV_CF_SPACE"
+      #       cf push dev-onrr-frontend -f ./manifest.yml
 
 workflows:
-  build:
-    jobs:
-      - build-and-deploy
+  # build:
+  #   jobs:
+  #     - build-and-deploy
   preview:
     jobs:
       - onrr-preview
