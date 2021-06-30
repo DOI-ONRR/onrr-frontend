@@ -70,7 +70,6 @@ const Home = ({ pageId, ...rest }) => {
 
   let page
   let blocks
-  let test = 'this is a test for preview!!!'
 
   const getBlockComponent = (name, data) => {
     console.debug('getBlockComponent: ', name, data)
