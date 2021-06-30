@@ -3,7 +3,8 @@ import { render } from 'react-dom'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 import {
-  BrowserRouter as Router
+  BrowserRouter as Router,
+  HashRouter
 } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider } from '@material-ui/core/styles'
@@ -28,9 +29,9 @@ render(
     <ThemeProvider theme={theme}>
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
       <CssBaseline />
-      <Router>
+      <HashRouter>
         <App />
-      </Router>
+      </HashRouter>
     </ThemeProvider>
   </ApolloProvider>,
   document.getElementById('root'),

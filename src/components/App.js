@@ -5,7 +5,8 @@ import { gql } from '@apollo/client'
 
 import {
   Route,
-  Switch
+  Switch,
+  useRouteMatch
 } from 'react-router-dom'
 
 import {
@@ -83,6 +84,7 @@ const App = () => {
 
   const { loading, error, data } = useQuery(PAGES_QUERY)
   let pages
+  let { url } = useRouteMatch()
 
   if (loading) return <Loading />
   if (error) return `Error! ${ error.message }`
