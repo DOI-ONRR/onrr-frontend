@@ -98,7 +98,7 @@ const App = () => {
         <StickyHeader />
         <MainContentContainer maxWidth="false">
           <Switch>
-            <Route path={`${url}/`} render={(props) => <Home pageId={1} {...props} />} exact />
+            <Route path="/" render={(props) => <Home pageId={1} {...props} />} exact />
             {pages.map(page => {
               // use the identifyComponent function we wrote earlier
               let Template = getPageComponent(page)
